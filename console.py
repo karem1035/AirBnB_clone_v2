@@ -115,27 +115,37 @@ class HBNBCommand(cmd.Cmd):
 
     def do_create(self, args):
         """ Create an object of any class"""
+        # Creating array of arguments
         args = args.split(" ")
+        # Extracting the first Arg as class_name
         class_name = args[0]
+        # Validation for the input
         if not class_name:
             print("** class name missing **")
             return
         if class_name not in HBNBCommand.classes:
             print("** class doesn't exist **")
             return
+        # Creating new instance with the class name inputed
         new_instance = HBNBCommand.classes[class_name]()
-        # Looping through arguments
+        # Looping through the rest of the arguments args[1:]
         for p in args[1:]:
-            # Splitting the parameters
+            # Split arg with '=' to key value Ex:(city_id="0001")
             [key, value] = p.split('=')
+            # if string "" replace _ with space
             if value[0] == '"' and value[-1] == '"':
                 value = value[1:-1].replace('_', ' ')
+            # if float make it the type float
             elif '.' in value:
                 value = float(value)
+            # else int
             else:
                 value = int(value)
+            # Adding key values to the instances we created with setattr
             setattr(new_instance, key, value)
+        # saving to the file with .save()
         new_instance.save()
+        # Printing the id as per example on the intraned
         print(new_instance.id)
 
     def help_create(self):
