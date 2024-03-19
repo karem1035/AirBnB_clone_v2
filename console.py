@@ -134,7 +134,7 @@ class HBNBCommand(cmd.Cmd):
             [key, value] = p.split('=')
             # if string "" replace _ with space
             if value[0] == '"' and value[-1] == '"':
-                value = value[1:-1].replace('_', ' ')
+                value = value.replace('_', ' ')
             # if float make it the type float
             elif '.' in value:
                 value = float(value)
