@@ -135,7 +135,7 @@ class HBNBCommand(cmd.Cmd):
             }
             value = value.translate(replacements)
             setattr(new_instance, key, value)
-        print(new_instance)
+        print(new_instance.id)
         new_instance.save()
 
     def help_create(self):
