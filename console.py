@@ -127,15 +127,12 @@ class HBNBCommand(cmd.Cmd):
         for p in args[1:]:
             # Splitting the parameters
             [key, value] = p.split('=')
-            replacements = {
-                "_": " ",
-                '"':  None
-            }
-            if "." in value:
+            if value[0] == '"' and value[-1] == '"':
+                value = value[1:-1].replace('_', ' ')
+            elif '.' in value:
                 value = float(value)
             else:
                 value = int(value)
-            value = value.translate(replacements)
             setattr(new_instance, key, value)
         new_instance.save()
         print(new_instance.id)
