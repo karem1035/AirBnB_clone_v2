@@ -126,17 +126,19 @@ class HBNBCommand(cmd.Cmd):
         # Looping through arguments
         for p in args[1:]:
             # Splitting the parameters
-            key_value = p.split('=')
-            key = key_value[0]
-            value = key_value[1]
+            [key, value] = p.split('=')
             replacements = {
                 "_": " ",
                 '"':  None
             }
+            if "." in value:
+                value = float(value)
+            else:
+                value = int(value)
             value = value.translate(replacements)
             setattr(new_instance, key, value)
-        print(new_instance.id)
         new_instance.save()
+        print(new_instance.id)
 
     def help_create(self):
         """ Help information for the create method """
