@@ -23,3 +23,5 @@ class DBStorage:
                 .format(user, passwd, host, database), pool_pre_ping=TRUE)
         if env == 'test':
             Base.metadata.drop_all(self.__engine)
+    def all(self, cls=None):
+
