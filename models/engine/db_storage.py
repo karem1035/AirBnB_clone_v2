@@ -4,6 +4,13 @@ from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker, scoped_session
 from os import getenv
 from models.base_model import Base
+from sqlalchemy.ext.declarative import declarative_base
+from models.state import State
+from models.city import City
+from models.user import User
+from models.place import Place
+from models.review import Review
+from models.amenity import Amenity
 
 
 class DBStorage:
@@ -19,7 +26,7 @@ class DBStorage:
         database=getenv("HBNB_MYSQL_DB")
         env=getenv("HBNB_ENV")
 
-        self.__engine = create_engine('mysql+mysqldb://{}:{}@{}:3306/{}'
+        self.__engine = create_engine('mysql+mysqldb://{}:{}@{}/{}'
                 .format(user, passwd, host, database), pool_pre_ping=True)
         if env == 'test':
             Base.metadata.drop_all(self.__engine)
@@ -34,6 +41,7 @@ class DBStorage:
         else:
             classes = [State, City, User, Place, Review, Amenity]
             for obj in classes:
+                query = self.__session.query(obj)
                 key = "{}.{}".format(type(obj).__name__, obj.id)
                 objects[key] = obj
         return (objects)
