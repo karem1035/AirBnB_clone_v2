@@ -1,7 +1,7 @@
 #!/usr/bin/python3
 """ database for file class """
 from sqlalchemy import create_engine
-from sqlalchemy.orm import sessiomaker, scoped_session
+from sqlalchemy.orm import sessionmaker, scoped_session
 from os import getenv
 from models.base_model import Base
 
@@ -20,7 +20,7 @@ class DBStorage:
         env=getenv("HBNB_ENV")
 
         self.__engine = create_engine('mysql+mysqldb://{}:{}@{}:3306/{}'
-                .format(user, passwd, host, database), pool_pre_ping=TRUE)
+                .format(user, passwd, host, database), pool_pre_ping=True)
         if env == 'test':
             Base.metadata.drop_all(self.__engine)
     def all(self, cls=None):
