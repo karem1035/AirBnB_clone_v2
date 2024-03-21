@@ -1,7 +1,7 @@
 #!/usr/bin/python3
 """ database for file class """
 from sqlalchemy import create_engine
-form sqlalchemy.orm import sessiomaker, scoped_session
+from sqlalchemy.orm import sessiomaker, scoped_session
 from os import getenv
 from models.base_model import Base
 
@@ -24,4 +24,35 @@ class DBStorage:
         if env == 'test':
             Base.metadata.drop_all(self.__engine)
     def all(self, cls=None):
-
+        """ return the dictionary of an object """
+        objects= {}
+        if cls:
+            query =self.__session.query(cls)
+            for element in query:
+                key = "{}.{}".format(type(element).__name__, element.id)
+                objects[key] = element
+        else:
+            classes = [State, City, User, Place, Review, Amenity]
+            for obj in classes:
+                key = "{}.{}".format(type(obj).__name__, obj.id)
+                objects[key] = obj
+        return (objects)
+    def new(self, obj):
+        """Adds the object to the current database session"""
+        self.__session.add(obj)
+    def save(self):
+        """Commits all changes of the current database session"""
+        self.__session.commit()
+    def delete(self, obj=None):
+        """Deletes obj from the current database session"""
+        if obj:
+            self.__session.delete(obj)
+    def reload(self):
+        """Creates all tables in the database"""
+        Base.metadata.create_all(self.__engine)
+        Session = scoped_session(sessionmaker(bind=self.__engine,
+            expire_on_commit=False))
+        self.__session = Session()
+    def close(self):
+        """calls remove()"""
+        self.__session.close()
