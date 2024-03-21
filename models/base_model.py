@@ -15,6 +15,7 @@ class BaseModel:
     id = Column(String(60), nullable=False, primary_key=True)
     created_at = Column(DateTime, nullable=False, default=(datetime.utcnow()))
     updated_at = Column(DateTime, nullable=False, default=(datetime.utcnow()))
+
     def __init__(self, *args, **kwargs):
         """Instatntiates a new model"""
         if not kwargs:
@@ -33,6 +34,7 @@ class BaseModel:
                 self.created_at = datetime.now()
             if "updated_at" not in kwargs:
                 self.updated_at = datetime.now()
+
     def __str__(self):
         """Returns a string representation of the instance"""
         return '[{}] ({}) {}'.format(
@@ -54,6 +56,7 @@ class BaseModel:
             del dictionary['_sa_instance_state']
 
         return dictionary
+
     def delete(self):
         """ delete the current instance from the storage """
         models.storage.delete(self)
