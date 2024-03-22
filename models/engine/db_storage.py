@@ -36,6 +36,8 @@ class DBStorage:
         """ return the dictionary of an object """
         objects = {}
         if cls:
+            if type(cls) is str:
+                cls = eval(cls)
             query = self.__session.query(cls)
             for element in query:
                 key = "{}.{}".format(type(element).__name__, element.id)
