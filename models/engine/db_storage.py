@@ -44,8 +44,9 @@ class DBStorage:
             classes = [State, City, User, Place, Review, Amenity]
             for obj in classes:
                 query = self.__session.query(obj)
-                key = "{}.{}".format(type(obj).__name__, obj.id)
-                objects[key] = obj
+                for element in query:
+                    key = "{}.{}".format(type(element).__name__, element.id)
+                    objects[key] = element
         return (objects)
 
     def new(self, obj):
