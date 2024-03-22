@@ -234,17 +234,11 @@ class HBNBCommand(cmd.Cmd):
                 all_objs = models.storage.all(args)
             else:
                 all_objs = models.storage.all()
-            print_list = [str(obj) for obj in all_objs.values() if obj.__class__.__name__ == args]
+            print_list = [str(obj) for obj in all_objs.values()
+                          if obj.__class__.__name__ == args]
         else:
             print_list = [str(obj) for obj in models.storage.all().values()]
-            #for k, v in storage._FileStorage__objects.items():
-                #if k.split('.')[0] == args:
-                    #print_list.append(str(v))
-        #else:
-            #for k, v in storage._FileStorage__objects.items():
-                #print_list.append(str(v))
-
-        print(print_list)
+            print(print_list)
 
     def help_all(self):
         """ Help information for the all command """
