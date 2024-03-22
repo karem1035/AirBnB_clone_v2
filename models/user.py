@@ -4,6 +4,7 @@ from sqlalchemy import Column, String, Integer
 from models.base_model import BaseModel, Base
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import relationship
+from models.review import Review
 
 
 class User(BaseModel, Base):
