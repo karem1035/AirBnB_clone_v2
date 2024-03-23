@@ -40,14 +40,14 @@ class DBStorage:
                 cls = eval(cls)
             query = self.__session.query(cls)
             for element in query:
-                key = "{}.{}".format(type(element).__name__, element.id)
+                key = element.__class__.__name__+'.'+element.id
                 objects[key] = element
         else:
             classes = [State, City, User, Place, Review, Amenity]
             for obj in classes:
-                query = self.__session.query(obj)
+                query = self.__session.query(obj).all()
                 for element in query:
-                    key = "{}.{}".format(type(element).__name__, element.id)
+                    key = element.__class__.__name__+'.'+element.id
                     objects[key] = element
         return (objects)
 
@@ -69,7 +69,7 @@ class DBStorage:
         Base.metadata.create_all(self.__engine)
         Session = scoped_session(sessionmaker(bind=self.__engine,
                                  expire_on_commit=False))
-        self.__session = Session()
+        self.__session = scoped_session(Session)()
 
     def close(self):
         """calls remove()"""
